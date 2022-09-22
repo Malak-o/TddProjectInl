@@ -36,12 +36,12 @@ public class AuthTest {
     public void authThrowException(){
         //Given
         String username = "Berit";
-        String wrongPassword = "12346";
+        String errorPassword = "12346";
 
         //When
          WrongPasswordException error =
                 Assertions.assertThrows(WrongPasswordException.class,
-                        ()-> auth.auth(username, wrongPassword));
+                        ()-> auth.auth(username, errorPassword));
         //Then
         Assertions.assertEquals("Error! wrong Password", error.getMessage());
     }

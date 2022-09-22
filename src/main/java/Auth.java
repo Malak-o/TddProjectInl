@@ -10,7 +10,7 @@ public class Auth {
             ));
 
     public boolean auth(String username, String password) throws WrongPasswordException {
-        if (password == "12346"){
+        if (password =="12346"){
             throw new WrongPasswordException("Error! wrong Password");
         }
         return userMap
