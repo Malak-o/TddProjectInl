@@ -5,18 +5,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.nio.charset.StandardCharsets;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import java.security.Key;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
+
+@ExtendWith(MockitoExtension.class)
 public class AuthTest {
     private Auth auth;
     //Given
     @BeforeEach
-    public void serUp(){
+    public void setUp(){
         auth = new Auth();
 
 }
@@ -35,31 +36,32 @@ public class AuthTest {
     public void authThrowException(){
         //Given
         String username = "Berit";
-        String password = "12346";
+        String wrongPassword = "12346";
 
         //When
-        ArithmeticException error =
-                Assertions.assertThrows(ArithmeticException.class,
-                        ()-> auth.auth(username, password));
+         WrongPasswordException error =
+                Assertions.assertThrows(WrongPasswordException.class,
+                        ()-> auth.auth(username, wrongPassword));
         //Then
-        Assertions.assertEquals("Error! Wrong Password", error.getMessage());
+        Assertions.assertEquals("Error! wrong Password", error.getMessage());
     }
 
     @Test
     public void JWT(){
-        String username = "Anna";
-        Key key = Keys.hmacShaKeyFor("aaabbbcccdddNntxmHtekkkkkk1357899998888".getBytes());
+        String username = "Berit";
+        Key key = Keys.hmacShaKeyFor("aaabbbcccdddNntxmHtekkkkkkAAABBBCCCDDDEEEFFFGGG".getBytes());
         String Token = Jwts.builder()
                 .setSubject(username)
                 .addClaims(Map.of("Anna", "losen", "Berit", "123456", "Kalle", "password"))
                 .signWith(key)
                 .compact();
         System.out.println(Token);
+
     }
     @Test
     public void parseJWT(){
-        String Token = "aaabbbcccdddeeefffggghhhiiijjAABBCCDDEEFFGG";
-        Key key = Keys.hmacShaKeyFor("aaabbbcccdddNntxmHtekkkkkk1357899998888".getBytes());
+        String Token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJCZXJpdCIsIkFubmEiOiJsb3NlbiIsIkJlcml0IjoiMTIzNDU2IiwiS2FsbGUiOiJwYXNzd29yZCJ9.u4zFhvKvou25z-ckETiVlbcZJtNYVB3xmgimt-doRQ4";
+        Key key = Keys.hmacShaKeyFor("aaabbbcccdddNntxmHtekkkkkkAAABBBCCCDDDEEEFFFGGG".getBytes());
         String password = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
