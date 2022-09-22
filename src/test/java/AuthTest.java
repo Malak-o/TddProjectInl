@@ -1,8 +1,14 @@
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -37,6 +43,31 @@ public class AuthTest {
                         ()-> auth.auth(username, password));
         //Then
         Assertions.assertEquals("Error! Wrong Password", error.getMessage());
+    }
+
+    @Test
+    public void JWT(){
+        String username = "Anna";
+        Key key = Keys.hmacShaKeyFor("aaabbbcccdddNntxmHtekkkkkk1357899998888".getBytes());
+        String Token = Jwts.builder()
+                .setSubject(username)
+                .addClaims(Map.of("Anna", "losen", "Berit", "123456", "Kalle", "password"))
+                .signWith(key)
+                .compact();
+        System.out.println(Token);
+    }
+    @Test
+    public void parseJWT(){
+        String Token = "aaabbbcccdddeeefffggghhhiiijjAABBCCDDEEFFGG";
+        Key key = Keys.hmacShaKeyFor("aaabbbcccdddNntxmHtekkkkkk1357899998888".getBytes());
+        String password = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(Token)
+                .getBody()
+                .get("password", String.class);
+
+        System.out.println(password);
     }
 }
 
