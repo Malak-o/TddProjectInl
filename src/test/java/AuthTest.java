@@ -46,7 +46,7 @@ public class AuthTest {
         Assertions.assertEquals("Error! wrong Password", error.getMessage());
     }
 //VG delen ej komplett då jag nöjer mig med G
-    @Test
+   /* @Test
     public void JWT(){
         String username = "Berit";
         Key key = Keys.hmacShaKeyFor("aaabbbcccdddNntxmHtekkkkkkAAABBBCCCDDDEEEFFFGGG".getBytes());
@@ -70,7 +70,7 @@ public class AuthTest {
                 .get("password", String.class);
 
         System.out.println(password);
-    }
+    }*/
 }
 
 
