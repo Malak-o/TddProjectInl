@@ -45,7 +45,7 @@ public class AuthTest {
         //Then
         Assertions.assertEquals("Error! wrong Password", error.getMessage());
     }
-//VG delen ej komplett då jag nöjer mig med G
+//VG delen ej komplett
    /* @Test
     public void JWT(){
         String username = "Berit";
